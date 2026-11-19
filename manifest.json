@@ -1,0 +1,50 @@
+{
+  "version": "1.0.0",
+  "notes": "Fuente de verdad del instalador. repos: se clonan en <Root>\\repos\\<dir>. skills: junction en ~/.claude/skills/<name> -> <Root>\\repos\\<dir>\\<path>. setup: pasos post-clon (ver install.ps1). heavy=true se omite con -SkipHeavy.",
+  "repos": [
+    { "id": "hyperframes", "url": "https://github.com/heygen-com/hyperframes", "dir": "hyperframes", "sparse": ["/*.md", "/skills/", "/docs/"], "skills": [], "setup": ["hyperframes-skills"] },
+    { "id": "openmontage", "url": "https://github.com/OpenMontageInc/OpenMontage", "dir": "OpenMontage", "skills": [], "setup": ["openmontage"], "heavy": true },
+    { "id": "bart-motion-graphics", "url": "https://github.com/Barty-Bart/motion-graphics", "dir": "motion-graphics-bart",
+      "skills": [
+        { "name": "motion-broll", "path": "skills/motion-broll" },
+        { "name": "explainer-default", "path": "skills/explainer-default" },
+        { "name": "explainer-engaging", "path": "skills/explainer-engaging" },
+        { "name": "explainer-high-energy", "path": "skills/explainer-high-energy" },
+        { "name": "sound-effects", "path": "skills/sound-effects" },
+        { "name": "object-separation", "path": "skills/object-separation" }
+      ] },
+    { "id": "huashu-motion", "url": "https://github.com/alchaincyf/huashu-motion", "dir": "huashu-motion", "skills": [ { "name": "huashu-motion", "path": "skills/huashu-motion" } ] },
+    { "id": "rossark-motion", "url": "https://github.com/rossark0/rossark-motion-skill", "dir": "rossark-motion-skill", "skills": [ { "name": "rossark-motion-skill", "path": "." } ] },
+    { "id": "take-one", "url": "https://github.com/talsiach/take-one", "dir": "take-one", "skills": [ { "name": "take-one", "path": "." } ], "setup": ["npm-install"] },
+    { "id": "onetake", "url": "https://github.com/feitangyuan/onetake", "dir": "onetake", "skills": [ { "name": "onetake", "path": "." } ] },
+    { "id": "reanimate", "url": "https://github.com/NiazMorshed2007/reanimate", "dir": "reanimate", "skills": [ { "name": "reanimate", "path": "skills/reanimate" } ], "setup": ["reanimate"] },
+    { "id": "argo", "url": "https://github.com/shreyaskarnik/argo", "dir": "argo", "skills": [ { "name": "argo-guide", "path": "skills/argo-guide" } ] },
+    { "id": "explainroo", "url": "https://github.com/vincentsch/explainroo", "dir": "explainroo", "skills": [ { "name": "explainroo", "path": "skills/explainroo" } ], "setup": ["explainroo"] },
+    { "id": "video-director", "url": "https://github.com/win4r/video-director", "dir": "video-director", "skills": [ { "name": "video-director", "path": "video-director" } ] },
+    { "id": "earshot", "url": "https://github.com/Leonxlnx/earshot", "dir": "earshot", "skills": [ { "name": "earshot", "path": "skills/earshot" }, { "name": "real-sound", "path": "skills/real-sound" } ], "setup": ["earshot"] },
+    { "id": "lemo-opuscar", "url": "https://github.com/lemomo-ai/lemo-opuscar", "dir": "lemo-opuscar", "skills": [ { "name": "lemo-opuscar", "path": "plugin/skills/lemo-opuscar" } ], "setup": ["lemo-opuscar"] },
+    { "id": "pixelfx", "url": "https://github.com/patch-gg/pixelfx", "dir": "pixelfx", "skills": [ { "name": "pixelfx", "path": "skills/pixelfx" } ], "setup": ["npm-install"] },
+    { "id": "blender-mcp", "url": "https://github.com/ahujasid/mcp-for-blender", "dir": "mcp-for-blender", "skills": [], "setup": ["blender-mcp"], "heavy": true },
+    { "id": "prompts-awesome-opus", "url": "https://github.com/yihui-dev/awesome-opus5-5-videos", "dir": "awesome-opus5-5-videos", "skills": [] },
+    { "id": "prompts-joeseesun", "url": "https://github.com/joeseesun/opus-video-prompts", "dir": "opus-video-prompts", "skills": [] },
+    { "id": "claude-animation-base", "url": "https://github.com/JohnHeibel/ClaudeAnimationBase", "dir": "ClaudeAnimationBase", "skills": [], "setup": ["npm-install"] },
+    { "id": "video-shotcraft", "url": "https://github.com/Vincentwei1021/video-shotcraft", "dir": "video-shotcraft", "skills": [ { "name": "video-shotcraft", "path": "." } ], "setup": ["npm-install"] },
+    { "id": "claude-video-effects", "url": "https://github.com/Vibha-Ramprakash/claude-video-effects", "dir": "claude-video-effects", "skills": [ { "name": "effects", "path": "." } ], "setup": ["video-effects"] },
+    { "id": "collage-broll", "url": "https://github.com/pyang5166/gbro-collage-broll", "dir": "gbro-collage-broll", "skills": [ { "name": "gbro-collage-broll", "path": "." } ] },
+    { "id": "ace-step", "url": "https://github.com/ace-step/ACE-Step-1.5", "dir": "ACE-Step-1.5", "skills": [ { "name": "acestep", "path": ".claude/skills/acestep" }, { "name": "acestep-simplemv", "path": ".claude/skills/acestep-simplemv" } ], "setup": ["ace-step"], "heavy": true }
+  ],
+  "libs": {
+    "web3d": ["three", "@react-three/fiber", "@react-three/drei", "@react-three/rapier", "@react-three/postprocessing", "postprocessing", "react", "react-dom", "gsap"],
+    "python": { "version": "3.12", "packages": ["librosa", "soundfile", "numpy", "scipy", "Pillow", "matplotlib", "opencv-python", "playwright", "faster-whisper", "google-genai>=2.10.0"] }
+  },
+  "blender": { "version": "5.3.0" },
+  "winget": [
+    { "cmd": "git", "id": "Git.Git" },
+    { "cmd": "node", "id": "OpenJS.NodeJS.LTS" },
+    { "cmd": "uv", "id": "astral-sh.uv" },
+    { "cmd": "ffmpeg", "id": "Gyan.FFmpeg" },
+    { "cmd": "bun", "id": "Oven-sh.Bun" },
+    { "cmd": "jq", "id": "jqlang.jq" }
+  ]
+}
+
