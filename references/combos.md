@@ -2,11 +2,21 @@
 
 ## Pipelines típicos
 
+**Edición de footage grabado (entrevista, tutorial, talking-head largo)**
+1. `video-use`: transcribir, proponer estrategia de corte en lenguaje simple y esperar OK de Pablo.
+2. Cortes + color + overlays por slot; render preview → revisar timeline/frames → final.
+3. Subtítulos quemados al final; si van otras capas (effects, b-roll), aplicarlas antes de los subtítulos.
+
 **Reel talking-head con gráficos (9:16)**
-1. `effects` words.py o faster-whisper (`%MG_PY%`) → tiempos de palabras.
+0. Si el material está en bruto: `video-use` para el corte base (sin subtítulos aún).
+1. Tiempos de palabras: transcript de video-use, `effects` words.py o faster-whisper (`%MG_PY%`).
 2. (opcional) `object-separation` → máscaras para poner gráficos detrás.
 3. `effects` (1–2 efectos disparados por palabra) y/o `motion-broll` (cutaways).
 4. `sound-effects` (SFX medidos) → `earshot` revisa mezcla y sync.
+5. Subtítulos al final (video-use) y loudness -16 LUFS.
+
+**Elección con evidencia (dos candidatos)**
+Mismo momento clave con cada motor → 1–3 stills o draft ≤5 s en `projects\<slug>\compare\<motor>\` → contact sheet lado a lado (`ffmpeg ... hstack`) → elegir y registrar el porqué en `projects\<slug>\NOTAS.md`.
 
 **Promo de producto desde cero (15–30 s)**
 1. Ficha + guion corto. Música: ACE-Step (local) o `real-sound`; `beats.py` → grilla.

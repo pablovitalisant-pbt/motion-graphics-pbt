@@ -14,6 +14,10 @@ S (Test-Path (Join-Path $skills 'hyperframes\SKILL.md')) 'skill hyperframes (npx
 S (Test-Path (Join-Path $Root 'libs\web3d\node_modules\three')) 'lib three / R3F'
 S (Test-Path (Join-Path $Root 'libs\web3d\node_modules\@react-three\rapier')) 'lib @react-three/rapier'
 S (Test-Path (Join-Path $Root 'libs\web3d\node_modules\@react-three\postprocessing')) 'lib @react-three/postprocessing'
+foreach ($n in 'video-use', 'motion-design', 'media-use', 'reverse-any-video', 'style-sampling') { S (Test-Path (Join-Path $skills "$n\SKILL.md")) "skill $n (externa al manifest)" }
+$vu = Join-Path $skills 'video-use\.venv\Scripts\python.exe'
+S ((Test-Path $vu) -and ((& $vu -c "import faster_whisper;print('ok')" 2>$null) -eq 'ok')) 'video-use venv (faster-whisper)'
+if (-not $env:LEMO_OPUSCAR_HOME) { $env:LEMO_OPUSCAR_HOME = [Environment]::GetEnvironmentVariable('LEMO_OPUSCAR_HOME', 'User') }
 $py = Join-Path $Root 'libs\py\Scripts\python.exe'
 S ((Test-Path $py) -and ((& $py -c "import librosa;print('ok')" 2>$null) -eq 'ok')) 'python libs (librosa)'
 S ([bool]$env:LEMO_OPUSCAR_HOME) "LEMO_OPUSCAR_HOME=$env:LEMO_OPUSCAR_HOME"

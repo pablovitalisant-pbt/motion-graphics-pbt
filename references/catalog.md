@@ -68,6 +68,23 @@ Antes de usar una herramienta: leer su SKILL.md (columna "SKILL.md") y seguir su
 - Blender portable en `%MG_ROOT%\tools\blender-*\blender.exe` (variable `%MG_BLENDER%`), addon `blender_mcp` ya habilitado, servidor MCP `blender` registrado en Claude Code (scope user).
 - Uso: abrir Blender (`& $env:MG_BLENDER`); el addon arranca su servidor al abrir (panel N > MCP for Blender). Luego usar las herramientas MCP `blender`. Render sin UI: `& $env:MG_BLENDER -b escena.blend -o //frames/#### -a`. Integrar con ffmpeg.
 
+### video-use — SKILL.md `%USERPROFILE%\.claude\skills\video-use\SKILL.md` (junction a `%USERPROFILE%\video-use`, repo browser-use/video-use; fuera de `repos\`, no lo instala `install.ps1`)
+- Edición conversacional de footage: transcribe (faster-whisper local, sin API key), empaqueta `takes_packed.md`, decide cortes en límites de palabra, color grade, overlays animados (HyperFrames/Remotion/Manim por slot), subtítulos quemados, voiceover con voz clonada si `VU_VOZ_DIR` está configurado.
+- Python: `%USERPROFILE%\video-use\.venv\Scripts\python.exe` + `helpers\transcribe.py`, `transcribe_batch.py`, `pack_transcripts.py`, `timeline_view.py`, `render.py`.
+- Salidas SIEMPRE en `<carpeta de videos>\edit\` (nunca dentro de video-use). Reglas duras: subtítulos al final, concat `-c copy` por segmento, fades de 30 ms, nunca cortar dentro de una palabra, confirmar la estrategia antes de cortar.
+
+### reverse-any-video — skill global `/reverse-any-video` (HyperFrames)
+- Reconstruye un video completo como proyecto HyperFrames editable, verificado cuadro a cuadro (`npx hyperframes reverse start <video> --dir <proj>`, `npx hyperframes measure cuts`). Función HyperFrames **Pro** (pago): si la CLI la rechaza, informar y no correr `billing`. Solo videos que Pablo tenga derecho a usar.
+
+### style-sampling — skill global `/style-sampling` (HyperFrames)
+- Episodio nuevo en plantillas de serie: `collage-explainer`, `finance-explainer` (中文, voz y cara), `animated-science-explainer`, `3d-brand-explainer`, `3d-true-crime`. Función HyperFrames **Pro** (pago). Idioma según plantilla: confirmar en su SKILL.md antes de prometer español.
+
+### media-use — skill global `/media-use` (HyperFrames)
+- `npx hyperframes media-use resolve --type <bgm|sfx|image|logo|voice|video|cutout|...> --intent "..." --project <dir>` deja el archivo en `assets/` con registro. Gratis: catálogo HeyGen (con sesión), Openverse, `npx hyperframes tts` (Kokoro local), `npx hyperframes transcribe`. Generado = créditos → OK de Pablo.
+
+### motion-design — SKILL.md `%USERPROFILE%\.claude\skills\motion-design\SKILL.md` (LottieFiles, no está en `repos\`)
+- Principios: emoción objetivo, personalidad de movimiento, duraciones, easing (entrada desacelera, salida acelera), héroe + capas secundarias, regla de 1/3. Usar como checklist antes de animar con cualquier motor.
+
 ## Sonido y música
 
 ### earshot / real-sound — SKILL.md `earshot\skills\earshot\SKILL.md`, `earshot\skills\real-sound\SKILL.md`

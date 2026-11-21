@@ -1,6 +1,6 @@
 ---
 name: motion-graphics-pbt
-description: Director de motion graphics de Pablo. Usar PRIMERO ante cualquier pedido de video hecho con código, motion graphics, animación, reel, explainer, promo/launch film, b-roll animado, efectos sobre un talking-head, kinetic typography, video musical, pixel art, 3D o sonido/música para un video. Analiza el caso, elige la mejor skill o herramienta del kit instalado en Documents\motion-graphics (HyperFrames, Lemo-Opuscar, huashu-motion, OneTake, Take One, video-director, explainroo, Argo, video-shotcraft, Bart motion-graphics, Claude Video Effects, rossark, reanimate, pixelfx, ClaudeAnimationBase, three.js/R3F, Blender MCP, earshot, ACE-Step, librosa, Openverse, OpenMontage) y las combina en un mismo video cuando conviene.
+description: Director de motion graphics y edición de video de Pablo. Usar PRIMERO ante cualquier pedido de video (editar footage grabado (cortes, color, subtítulos), video hecho con código, motion graphics, animación, reel, explainer, promo/launch film, b-roll animado, efectos sobre un talking-head, kinetic typography, video musical, pixel art, 3D o sonido/música para un video). Analiza el caso, elige la mejor skill o herramienta del kit instalado (video-use, HyperFrames y sus skills media-use/reverse-any-video/style-sampling, Lemo-Opuscar, huashu-motion, OneTake, Take One, video-director, explainroo, Argo, video-shotcraft, Bart motion-graphics, Claude Video Effects, rossark, reanimate, pixelfx, ClaudeAnimationBase, three.js/R3F, Blender MCP, earshot, ACE-Step, librosa, Openverse, OpenMontage, motion-design) y las combina en un mismo video cuando conviene; si dos opciones encajan, decide con evidencia (stills/draft comparados).
 ---
 
 # Motion Graphics PBT — director y router
@@ -8,6 +8,15 @@ description: Director de motion graphics de Pablo. Usar PRIMERO ante cualquier p
 Kit instalado en `%MG_ROOT%` (por defecto `C:\Users\<user>\Documents\motion-graphics`):
 `repos\` (clones), `libs\web3d` (three/R3F/rapier/postprocessing), `libs\py` (Python 3.12 con librosa, opencv, playwright, faster-whisper), `projects\` (donde se crean los videos), `skill\` (esta skill).
 Si algo falta: `pwsh -File %MG_ROOT%\skill\install.ps1` (idempotente) o `-Only <id>`. Estado: `pwsh -File %MG_ROOT%\skill\scripts\doctor.ps1`.
+
+## Si Claude corre en claude.ai (chat), no en Claude Code
+
+- El kit vive en el PC de Pablo; el workspace en la nube no lo tiene. Ejecutar en el PC con la herramienta PowerShell de Windows-MCP (cargarla con ToolSearch si está diferida). Si no responde: pedir que la app de escritorio de Claude esté abierta y el PC encendido.
+- Cargar las variables de usuario al inicio de cada comando: `foreach($v in 'MG_ROOT','MG_PY','LEMO_OPUSCAR_HOME','MG_BLENDER'){ $x=[Environment]::GetEnvironmentVariable($v,'User'); if($x){ Set-Item "env:$v" $x } }; if(-not $env:MG_BLENDER){ $env:MG_BLENDER=(Get-ChildItem "$env:MG_ROOT\tools" -Recurse -Depth 2 -Filter blender.exe | Select -First 1).FullName }`.
+- Las SKILL.md del kit están en `%USERPROFILE%\.claude\skills\<nombre>\SKILL.md`: leerlas con `Get-Content -Raw -Encoding UTF8`. Los detalles de `references\` están en `%MG_ROOT%\skill\references\`.
+- Timeout corto: renders, servidores e instalaciones largas se lanzan desacoplados (`Start-Process pwsh -WindowStyle Hidden ...` con salida a un log del proyecto) y se consulta el log.
+- El MCP `blender` solo existe en Claude Code; desde el chat usar Blender en modo `-b` (sin UI).
+- Las sub-agentes paralelas que pide video-use (animaciones) solo si la sesión tiene la herramienta Agent; si no, en secuencia.
 
 ## Procedimiento (siempre en este orden)
 
@@ -17,7 +26,11 @@ Si algo falta: `pwsh -File %MG_ROOT%\skill\install.ps1` (idempotente) o `-Only <
    - Objetivo: promo/launch, explainer/tutorial, b-roll sobre narración, efecto sobre talking-head, video musical/lyric, estilo artístico, pixel/juego, 3D/físicas, clonar una animación vista.
    - Sonido: ¿voz en off (local Kokoro/explainroo), música (ACE-Step local o licenciada), SFX?
    - Restricciones: costo (preferir 100% local, sin API keys), tiempo de render (este PC no tiene GPU dedicada: evitar watercolor p5.brush pesado, ACE-Step en CPU es lento).
+   - Gasto: cualquier herramienta de pago (HyperFrames Pro: reverse-any-video y style-sampling; créditos HyperFrames/HeyGen en media-use; take-one; APIs de pago de OpenMontage; GEMINI_API_KEY de gbro) requiere OK explícito de Pablo antes de usarla. Ofrecer siempre la alternativa local.
 2. **Elegir motor principal** con la tabla de abajo. Un video = un motor principal que produce el MP4 base.
+   - Si hay footage grabado que haya que cortar/limpiar, el motor es **video-use** y todo lo demás son capas.
+   - **Elección con evidencia**: si la tabla deja 2 candidatos razonables (p. ej. huashu-motion vs explainer-high-energy, explainroo vs video-director+HyperFrames, reanimate vs reverse-any-video), producir con cada uno el mismo momento clave (1–3 stills o un draft ≤5 s, sin render final), mirarlos lado a lado y elegir; mostrar la comparación a Pablo en 2 líneas. Si solo hay un candidato claro, no comparar.
+   - La tabla es una guía escrita sin pruebas sistemáticas en este PC: si una herramienta falla dos veces en Windows, pasar al segundo candidato y anotarlo.
 3. **Elegir capas** (opcionales) que se aplican antes o después del motor: efectos sobre footage, b-roll, sonido, música, assets.
 4. **Leer la SKILL.md de cada herramienta elegida** (ruta en `references/catalog.md`) y seguir SU flujo. No improvisar comandos: el catálogo y la SKILL.md de cada repo mandan.
 5. **Crear el proyecto** en `%MG_ROOT%\projects\<yyyy-mm-dd>-<slug>\` (nunca dentro de `repos\`, salvo OpenMontage y ClaudeAnimationBase que trabajan dentro de su repo: copiar el repo a projects\ primero).
@@ -28,6 +41,8 @@ Si algo falta: `pwsh -File %MG_ROOT%\skill\install.ps1` (idempotente) o `-Only <
 
 | Situación | Motor | Por qué |
 |---|---|---|
+| **Editar footage ya grabado** (talking-head, entrevista, tutorial, montaje, viaje): cortar muletillas, retomas y silencios, color, subtítulos, overlays animados, voz clonada | **video-use** | transcripción local por palabra (faster-whisper), cortes en límites de palabra, EDL, render con ffmpeg; confirma la estrategia con Pablo antes de cortar |
+| **Episodio en un estilo de serie probado** (Collage Explainer, Finance Explainer, Animated Science Explainer, 3D Brand Explainer, 3D True Crime) | **style-sampling** (HyperFrames Pro, pago → OK de Pablo) | estructura, ritmo y look de la serie sobre un tema nuevo; nunca usa cara/voz/marca del creador |
 | Promo/launch de producto o SaaS, look comercial, iterar "señalando el frame" | **huashu-motion** | director de lenguaje de movimiento + estudio para editar frames; compone música |
 | Launch film en **un solo plano continuo** sin cortes | **onetake** | cámara continua con oráculo de continuidad; looks predefinidos |
 | Promo 12–20 s hype, kinetic type, beat-locked | **explainer-high-energy** (Bart) | |
@@ -46,12 +61,15 @@ Si algo falta: `pwsh -File %MG_ROOT%\skill\install.ps1` (idempotente) o `-Only <
 | 3D, físicas, partículas, post-processing (bloom, DOF, glitch) | **three.js + @react-three/rapier + @react-three/postprocessing** desde `libs\web3d`, renderizado por HyperFrames o Remotion | |
 | Modelado/render 3D real (escenas, productos, cámaras) | **Blender MCP** (Blender abierto + addon) → exportar secuencia/MP4 | |
 | Video musical / lyric video desde audio + letra | **acestep-simplemv** (Remotion) o HyperFrames + beats de librosa | |
-| Clonar/replicar una animación vista en una web o video | **reanimate** (verifica frame a frame) | |
+| Clonar una **animación, sección o widget** (web, gif, Lottie, grabación) | **reanimate** (verifica frame a frame) | sale código animado; local, gratis |
+| Rehacer **un video completo** como proyecto HyperFrames editable, igual cuadro a cuadro | **reverse-any-video** (HyperFrames Pro, pago → OK de Pablo) | mide cortes y reconstruye cada plano; si no hay Pro: reanimate por secciones + video-director |
 
 ## Capas (combinables con cualquier motor)
 
 | Necesidad | Herramienta |
 |---|---|
+| Criterio de movimiento: timing, easing, coreografía, principios Disney, personalidad de marca | **motion-design** (LottieFiles) — consultar al diseñar cualquier animación, antes de escribirla |
+| Conseguir/generar media para un proyecto HyperFrames: música, SFX, imágenes, íconos, logos, voz (Kokoro local), transcripción, recortes, color grade de footage oscuro/plano | **media-use** (`npx hyperframes media-use resolve`; lo gratis/local primero, créditos HeyGen/HyperFrames solo con OK) |
 | Efectos sobre **talking-head ya grabado** (orbit, spotlight, glass widgets, headline match-cut, checklist… 51, disparables por palabra) | **effects** (Claude Video Effects) |
 | B-roll de motion graphics sincronizado a las palabras del speaker | **motion-broll** (Bart) |
 | Recortar persona/producto del fondo (SAM 2) para poner gráficos detrás | **object-separation** (Bart) |
@@ -67,7 +85,7 @@ Si algo falta: `pwsh -File %MG_ROOT%\skill\install.ps1` (idempotente) o `-Only <
 ## Reglas de combinación
 
 - Un motor principal por pieza; varias piezas se concatenan (p. ej. intro lemo-opuscar 5 s + cuerpo explainroo + cierre huashu).
-- Talking-head: orden recomendado = object-separation (si hay gráficos detrás) → effects / motion-broll → sound-effects → mezcla final.
+- Talking-head / footage grabado: video-use (corte base + color, SIN quemar subtítulos todavía; sus transcripts por palabra sirven de tiempos) → object-separation (si hay gráficos detrás) → effects / motion-broll → sound-effects → subtítulos al final (regla de video-use: siempre últimos en la cadena) → mezcla final.
 - Generado desde cero: motor → (opcional) música ACE-Step o real-sound → sound-effects → earshot review.
 - Sincronía: obtener tiempos de palabras (`effects` words.py o faster-whisper en `%MG_PY%`) y beats (`beats.py`) ANTES de animar; pasarlos como datos al motor.
 - 1–2 efectos por reel, no siete. Formato reel por defecto: 1080×1920, 30 fps, H.264 yuv420p, `-preset veryfast`.

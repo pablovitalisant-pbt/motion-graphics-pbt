@@ -21,4 +21,8 @@ Opciones de `install.ps1`:
 
 Actualizar la skill misma: `git -C "$HOME\Documents\motion-graphics\skill" pull`.
 
+Skills que el router usa pero que NO instala `install.ps1` (verlas con `doctor.ps1`): `video-use` (https://github.com/browser-use/video-use, seguir su `install.md`), `motion-design` (LottieFiles) y las skills de HyperFrames `media-use`, `reverse-any-video`, `style-sampling` (vienen con `npx hyperframes skills update`; las dos últimas son HyperFrames Pro, de pago).
+
+Uso desde claude.ai (chat): la skill incluye una sección para operar el kit del PC por la herramienta PowerShell de Windows-MCP.
+
 Queda todo en `Documents\motion-graphics\` (repos, libs, tools, projects, logs, skill) y las skills enlazadas (junctions) en `~/.claude/skills`.
